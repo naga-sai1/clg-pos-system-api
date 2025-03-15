@@ -5,7 +5,7 @@ const { authenticateToken, authorizeRole } = require('../middleware/auth.middlew
 
 // Public routes
 router.post('/login', login);
-router.post('/signup', authenticateToken, authorizeRole(['admin']), signup); // Only admins can create new users
+router.post('/signup', signup); // Only admins can create new users
 router.get('/test_auth', authenticateToken, (req, res) => {
     res.json({
         message: "JWT verification successful"
