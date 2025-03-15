@@ -88,7 +88,7 @@ const updateSupplier = async (req, res) => {
       updated_by: updated_by,
       updated_on: new Date(),
     });
-    res.status(200).json({ message: "Supplier updated successfully" });
+    res.status(200).json({ message: "Supplier updated successfully", supplier });
   } catch (err) {
     res
       .status(500)
@@ -134,7 +134,21 @@ const deleteSupplier = async (req, res) => {
   }
 };
 
-
+// get all supplier names dropdown
+const getSupplierNames = async (req, res) => {
+  try {
+    const { Supplier } = await connectToDatabase();
+    const suppliers = await Supplier.findAll({
+      attributes: ["suppliers_id", "suppliers_name", "city", "address"],
+      where: { is_active: true, status: true },
+    });
+    return res.status(200).json(suppliers);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Error getting supplier names", error: err.message });
+  }
+};
 
 
 module.exports = {
@@ -143,4 +157,5 @@ module.exports = {
   getSupplierById,
   updateSupplier,
   deleteSupplier,
+  getSupplierNames,
 };
